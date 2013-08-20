@@ -21,7 +21,7 @@ function Grid(aw, ah){
 	
 	
 	this.getCell = (function(ax, ay){
-		//
+
 	}).bind(this);
 	
 	
