@@ -1,5 +1,5 @@
 "use strict";
-
+// Trial and error settings activated
 ///* ../lib/Canvas.js
 ///* ../lib/Sprite.js
 ///* grid.js
