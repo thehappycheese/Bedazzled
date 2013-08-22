@@ -34,6 +34,7 @@ canvas.setSize(SIZE*grid.w, SIZE*grid.h);
 
 canvas.on("mousedown", function(e){
 	e.preventDefault();
+	canvas.canvas.focus();
 	if (cursor.v===false){
 		cursor.v = !cursor.v;
 		selection.x = -1;
@@ -50,44 +51,25 @@ canvas.on("mousedown", function(e){
 canvas.on("keydown", function(e){
 	if (cursor.v === true){
 		if(canvas.isKeyDown(KEYS.up) || canvas.isKeyDown(KEYS.w)){
-			if (selection.y==0){
-				return
-			}else{
-				var temp = grid.cells[selection.y][selection.x];
-				grid.cells[selection.y][selection.x] = grid.cells[selection.y-1][selection.x];
-				grid.cells[selection.y-1][selection.x] = temp;
-				cursor.v = !cursor.v;
+			grid.swap(selection.x,selection.y,selection.x,selection.y-1);
+			cursor.v = !cursor.v;
+			if(grid.getCell(selection.x,selection.y).color === grid.getCell(selection.x-1,selection.y).color){
+				if(grid.getCell(selection.x,selection.y).color === grid.getCell(selection.x-2,selection.y).color){
+					grid.getCell(selection.x,selection.y).color = 8;
+				}
 			}
 		}
 		if(canvas.isKeyDown(KEYS.down) || canvas.isKeyDown(KEYS.s)){
-			if (selection.y==grid.h-1){
-				return
-			}else{
-				var temp = grid.cells[selection.y][selection.x];
-				grid.cells[selection.y][selection.x] = grid.cells[selection.y+1][selection.x];
-				grid.cells[selection.y+1][selection.x] = temp;
-				cursor.v = !cursor.v;
-			}
+			grid.swap(selection.x,selection.y,selection.x,selection.y+1);
+			cursor.v = !cursor.v;
 		}
 		if(canvas.isKeyDown(KEYS.a) || canvas.isKeyDown(KEYS.left)){
-			if (selection.x==0){
-				return
-			}else{
-				var temp = grid.cells[selection.y][selection.x];
-				grid.cells[selection.y][selection.x] = grid.cells[selection.y][selection.x-1];
-				grid.cells[selection.y][selection.x-1] = temp;
-				cursor.v = !cursor.v;
-			}
+			grid.swap(selection.x,selection.y,selection.x-1,selection.y);
+			cursor.v = !cursor.v;
 		}
 		if(canvas.isKeyDown(KEYS.right) || canvas.isKeyDown(KEYS.d)){
-			if (selection.x==grid.w-1){
-				return
-			}else{
-				var temp = grid.cells[selection.y][selection.x];
-				grid.cells[selection.y][selection.x] = grid.cells[selection.y][selection.x+1];
-				grid.cells[selection.y][selection.x+1] = temp;
-				cursor.v = !cursor.v;
-			}
+			grid.swap(selection.x,selection.y,selection.x+1,selection.y);
+			cursor.v = !cursor.v;
 		}
 		
 	}
@@ -121,3 +103,39 @@ canvas.on("blur",function(){
 	canvas.ctx.font = "13 px sans-serif"
 	canvas.ctx.fillText("Click here to give the game focus!",0,14);
 })
+
+function gridChecker(){
+	var i, j;
+	for(j = 0; j< grid.h; j++){
+		for(i = 0; i< grid.w; i++){
+			if(grid.isInside(i-1,j-1)){			
+				if(grid.isInside(i-2,j-2)){		
+			if(grid.isInside(i+1,j+1)){			
+				if(grid.isInside(i+2,j+2)){		
+					if(grid.getCell(i,j).color === grid.getCell(i-1,j).color){
+						if(grid.getCell(i,j).color === grid.getCell(i-2,j).color){
+							grid.getCell(i,j).color = 8;
+						}
+					}
+					if(grid.getCell(i,j).color === grid.getCell(i+1,j).color){
+						if(grid.getCell(i,j).color === grid.getCell(i+2,j).color){
+							grid.getCell(i,j).color = 8;
+						}
+					}
+					if(grid.getCell(i,j).color === grid.getCell(i,j-1).color){
+						if(grid.getCell(i,j).color === grid.getCell(i,j-2).color){
+							grid.getCell(i,j).color = 8;
+						}
+					}
+					if(grid.getCell(i,j).color === grid.getCell(i,j+1).color){
+						if(grid.getCell(i,j).color === grid.getCell(i,j+2).color){
+							grid.getCell(i,j).color = 8;
+						}
+					}
+				}
+			}
+			}
+			}
+		}
+	}
+}		

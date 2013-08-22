@@ -21,9 +21,12 @@ function Grid(aw, ah){
 	
 	
 	this.getCell = (function(ax, ay){
-
+		return this.cells[ay][ax];
 	}).bind(this);
 	
+	this.setCell = (function(ax,ay, value){
+		return this.cells[ay][ax] = value;
+	}).bind(this);
 	
 	this.draw = (function(){
 		var i, j, cell;
@@ -33,6 +36,18 @@ function Grid(aw, ah){
 				rGems.drawFrameAt(canvas.ctx,cell.color,i*SIZE,j*SIZE,0);
 			}
 		}
+	}).bind(this);
+	
+	this.swap = (function(sx,sy,ex,ey){
+		if(this.isInside(ex,ey)){
+			var temp = grid.getCell(sx,sy);
+			grid.setCell(sx,sy,grid.getCell(ex,ey));
+			grid.setCell(ex,ey,temp);
+		}
+	}).bind(this);
+	
+	this.isInside = (function(x,y){
+		return x>=0 && x<grid.w && y>=0 && y<grid.h
 	}).bind(this);
 	
 	// =========== CONSTRUCTOR =============
