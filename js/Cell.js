@@ -37,4 +37,7 @@ function Cell(){
 	
 	// ======== CONSTRUCTOR ==========
 	this.color = this.random();
+	this.check = false;
+	this.parent = [];
+	this.child = [];
 }

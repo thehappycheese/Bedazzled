@@ -110,32 +110,64 @@ function gridChecker(){
 		for(i = 0; i< grid.w; i++){
 			if(grid.isInside(i-1,j-1)){			
 				if(grid.isInside(i-2,j-2)){		
-			if(grid.isInside(i+1,j+1)){			
-				if(grid.isInside(i+2,j+2)){		
-					if(grid.getCell(i,j).color === grid.getCell(i-1,j).color){
-						if(grid.getCell(i,j).color === grid.getCell(i-2,j).color){
-							grid.getCell(i,j).color = 8;
-						}
-					}
-					if(grid.getCell(i,j).color === grid.getCell(i+1,j).color){
-						if(grid.getCell(i,j).color === grid.getCell(i+2,j).color){
-							grid.getCell(i,j).color = 8;
-						}
-					}
-					if(grid.getCell(i,j).color === grid.getCell(i,j-1).color){
-						if(grid.getCell(i,j).color === grid.getCell(i,j-2).color){
-							grid.getCell(i,j).color = 8;
-						}
-					}
-					if(grid.getCell(i,j).color === grid.getCell(i,j+1).color){
-						if(grid.getCell(i,j).color === grid.getCell(i,j+2).color){
-							grid.getCell(i,j).color = 8;
+					if(grid.isInside(i+1,j+1)){			
+						if(grid.isInside(i+2,j+2)){		
+							if(grid.getCell(i,j).color === grid.getCell(i-1,j).color){
+								if(grid.getCell(i,j).color === grid.getCell(i-2,j).color){
+									grid.getCell(i,j).color = 8;
+								}
+							}
+							if(grid.getCell(i,j).color === grid.getCell(i+1,j).color){
+								if(grid.getCell(i,j).color === grid.getCell(i+2,j).color){
+									grid.getCell(i,j).color = 8;
+								}
+							}
+							if(grid.getCell(i,j).color === grid.getCell(i,j-1).color){
+								if(grid.getCell(i,j).color === grid.getCell(i,j-2).color){
+									grid.getCell(i,j).color = 8;
+								}
+							}
+							if(grid.getCell(i,j).color === grid.getCell(i,j+1).color){
+								if(grid.getCell(i,j).color === grid.getCell(i,j+2).color){
+									grid.getCell(i,j).color = 8;
+								}
+							}
 						}
 					}
 				}
 			}
+		}
+	}
+}	
+function gridChecker2(){
+	var i, j;
+	for(j = 0; j< grid.h; j++){
+		for(i = 0; i< grid.w; i++){			
+			if(grid.isInside(i+1,j)){		
+				if(grid.getCell(i,j).color === grid.getCell(i+1,j).color){
+					grid.getCell(i,j).check = true;
+					grid.getCell(i+1,j).parent.push(getCell(i,j));
+					grid.getCell(i,j).child.push(getCell(i+1,j));
+					
+				}
 			}
+			if(grid.isInside(i,j+1)){
+				if(grid.getCell(i,j).color === grid.getCell(i,j+1).color){
+					grid.getCell(i,j).check = true;
+					grid.getCell(i,j+1).parent.push(getCell(i,j));
+					grid.getCell(i,j).child.push(getCell(i,j+1));
+				}
 			}
 		}
 	}
-}		
+}
+function checkShape(){
+	var i,j;
+	for(j = 0; j< grid.h; j++){
+		for(i = 0; i< grid.w; i++){	
+			if(grid.getCell(i,j).check){
+					grid.getCell(i,j).color = 8;
+			}
+		}
+	}
+}
